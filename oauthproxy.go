@@ -194,7 +194,7 @@ func NewOAuthProxy(opts *Options, validator func(string) bool) *OAuthProxy {
 		OAuthStartPath:       fmt.Sprintf("%s/start", opts.ProxyPrefix),
 		OAuthCallbackPath:    fmt.Sprintf("%s/callback", opts.ProxyPrefix),
 		AuthOnlyPath:         fmt.Sprintf("%s/auth", opts.ProxyPrefix),
-		ForbiddenHttpMethods: opts.ForbiddenHttpMethods
+		ForbiddenHttpMethods: opts.ForbiddenHttpMethods,
 
 		ProxyPrefix:        opts.ProxyPrefix,
 		provider:           opts.provider,
@@ -467,7 +467,7 @@ func (p *OAuthProxy) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	case path == p.AuthOnlyPath:
 		p.AuthenticateOnly(rw, req)
 	default:
-		if method, ok := ForbiddenHttpMethods[req.Method]; ok {
+		if _, ok := p.ForbiddenHttpMethods[req.Method]; ok {
 			p.ErrorPage(rw, 403, "Permission Denied", "http method not allowed")
 		} else {
 			p.Proxy(rw, req)

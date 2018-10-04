@@ -154,7 +154,7 @@ func (o *Options) Validate() error {
 		o.proxyURLs = append(o.proxyURLs, upstreamURL)
 	}
 
-	ForbiddenHttpMethods = make(map[string]string)
+	ForbiddenHttpMethods := make(map[string]string)
 	for _, u := range o.ForbiddenMethods {
 		ForbiddenHttpMethods[u] = u
 	}

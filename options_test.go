@@ -97,13 +97,16 @@ func TestProxyURLs(t *testing.T) {
 }
 
 func TestForbiddenHttpMethods(t *testing.T) {
+	forbiddenMethods := []string{"GET", "POST"}
 	o := testOptions()
-	o.ForbiddenMethods = [2]string{"GET", "POST"}
+	o.ForbiddenMethods = forbiddenMethods
+
 
 	assert.Equal(t, nil, o.Validate())
 	for _, method := range forbiddenMethods {
-		if method, ok := o.ForbiddenHttpMethods[method]; ok {
+		if _, ok := o.ForbiddenHttpMethods[method]; ok {
 			assert.Equal(t, true, ok)
+		}
 	}
 
 	o.ForbiddenMethods = []string{}

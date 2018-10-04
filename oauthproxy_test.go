@@ -96,15 +96,15 @@ func TestForbiddenMethod(t *testing.T) {
 	opts.ClientID = "bazquux"
 	opts.ClientSecret = "foobar"
 	opts.CookieSecret = "xyzzyplugh"
-	opts.ForbiddenHttpMethods = {"PUT": "PUT"}
+	opts.ForbiddenHttpMethods = map[string]string{"PUT":"PUT"}
 	opts.Validate()
 
 	proxy := NewOAuthProxy(opts, func(string) bool { return true })
 	rw := httptest.NewRecorder()
-	req, _ := http.NewRequest("GET", "/dummyPath", nil)
+	req, _ := http.NewRequest("PUT", "/dummyPath", nil)
 	proxy.ServeHTTP(rw, req)
 	assert.Equal(t, 403, rw.Code)
-	assert.Equal(t, "http method not allowed", rw.Body.String())
+	assert.Equal(t, true, strings.Contains(rw.Body.String(), "http method not allowed"))
 }
 
 type TestProvider struct {
