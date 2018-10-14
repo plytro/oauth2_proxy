@@ -96,7 +96,7 @@ func TestForbiddenMethod(t *testing.T) {
 	opts.ClientID = "bazquux"
 	opts.ClientSecret = "foobar"
 	opts.CookieSecret = "xyzzyplugh"
-	opts.ForbiddenHttpMethods = map[string]string{"PUT":"PUT"}
+	opts.ForbiddenHttpMethods = map[string]string{"PUT": "PUT"}
 	opts.Validate()
 
 	proxy := NewOAuthProxy(opts, func(string) bool { return true })

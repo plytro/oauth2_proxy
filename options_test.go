@@ -101,7 +101,6 @@ func TestForbiddenHttpMethods(t *testing.T) {
 	o := testOptions()
 	o.ForbiddenMethods = forbiddenMethods
 
-
 	assert.Equal(t, nil, o.Validate())
 	for _, method := range forbiddenMethods {
 		if _, ok := o.ForbiddenHttpMethods[method]; ok {
